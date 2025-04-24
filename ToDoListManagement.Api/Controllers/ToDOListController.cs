@@ -10,10 +10,14 @@ namespace ToDoListManagement.Api.Controllers
     public class ToDOListController : ControllerBase
     {
         private readonly IToDoListService _toDoListService;
+        private readonly ILogger<ToDOListController> _logger;
+        private readonly TelegramHandler _telegramHandler;
 
-        public ToDOListController(IToDoListService toDoListService)
+        public ToDOListController(IToDoListService toDoListService, ILogger<ToDOListController> logger, TelegramHandler telegramHandler)
         {
             _toDoListService = toDoListService;
+            _logger = logger;
+            _telegramHandler = telegramHandler;
         }
 
         [HttpPost("InsertToDoItem")]
@@ -37,6 +41,8 @@ namespace ToDoListManagement.Api.Controllers
         [HttpGet("SelectAllToDoItemsAsync")]
         public async Task<ICollection<ToDoListGetDto>> SelectAllToDoItemsAsync(int skip, int take)
         {
+            await _telegramHandler.LogAsync($"SelectAllToDoItemsAsync method called with skip: {skip}, take: {take}, {DateTime.UtcNow}");
+            _logger.LogInformation($"SelectAllToDoItemsAsync method called with skip: {skip}, take: {take}, {DateTime.UtcNow}");
             return await _toDoListService.SelectAllToDoItemsAsync(skip, take);
         }
 

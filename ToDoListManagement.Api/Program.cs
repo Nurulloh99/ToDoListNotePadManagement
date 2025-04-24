@@ -16,6 +16,8 @@ namespace ToDoListManagement.Api
 
             // Add services to the container.
 
+            builder.ConfigureSerilog();
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -26,7 +28,7 @@ namespace ToDoListManagement.Api
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
             builder.Services.AddValidatorsFromAssemblyContaining<ToDoListCreateDto>();
             builder.Services.AddValidatorsFromAssemblyContaining<ToDoListGetDto>();
-
+            builder.Services.AddSingleton(new TelegramHandler("7878522330:AAFjGSnpuJNbIpa1RwxBw2stsQwnSdmirf0", "1046201506"));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
